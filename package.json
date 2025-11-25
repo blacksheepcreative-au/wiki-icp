@@ -1,0 +1,27 @@
+{
+  "name": "wiki-icp-child",
+  "version": "0.1.0",
+  "description": "Child theme assets for ICP Wiki built on the ewenique-core Tailwind pipeline.",
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "@awesome.me/kit-977ae106ed": "^1.0.34"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/plugin-transform-react-jsx": "^7.27.1",
+    "@babel/preset-env": "^7.28.5",
+    "autoprefixer": "^10.4.21",
+    "babel-loader": "^10.0.0",
+    "browser-sync-webpack-plugin": "^2.4.0",
+    "css-loader": "^7.1.2",
+    "mini-css-extract-plugin": "^2.9.4",
+    "postcss": "^8.5.6",
+    "postcss-loader": "^8.2.0",
+    "tailwindcss": "^3.4.18",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^6.0.1"
+  }
+}

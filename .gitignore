@@ -1,0 +1,8 @@
+# Node / build artifacts
+node_modules/
+dist/
+.DS_Store
+*.log
+
+# Local-only helpers
+localfunctions.php
