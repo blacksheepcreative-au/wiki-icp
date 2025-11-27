@@ -85,6 +85,13 @@ function wiki_icp_register_menus() {
 add_action('after_setup_theme', 'wiki_icp_register_menus');
 
 /**
+ * Enable featured images for posts and pages.
+ */
+add_action('after_setup_theme', function () {
+    add_theme_support('post-thumbnails', ['post', 'page']);
+});
+
+/**
  * Allow adding Font Awesome classes on menu items to render leading icons while keeping the label.
  * Add classes like "fa-solid fa-house" or "fa-regular fa-circle" on a menu item in Appearance > Menus.
  * We strip the FA classes from the <li> to prevent the FA kit from replacing the whole item, and insert
