@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 :root {
-  --PrimaryColor: #0f8eff;
+  --PrimaryColor: #d36948;
   --SecondaryColor: #0f8eff;
   --BackgroundNavFooter: #232833;
   --HeadingFontFamily: 'Inter', sans-serif;
@@ -17,13 +17,12 @@
   --OnPrimary: #ffffff;
   --OnSecondary: #232833;
   --OnBackgroundNavFooterDefault: #ffffff;
-  --OnBackgroundNavFooterMeta: #b8c2d0;
+  --OnBackgroundNavFooterMeta: #d36948;
   --TertiaryColor: #0075db;
   --TertiaryColorLight: #ecf6ff;
   --ParagraphColor: #232833;
   --ParagraphAltColor: #76839c;
-  --IconFrameColor: #777777
-  --50-Dark: #96a3b6;
+  --IconFrameColor: #777777;
   --FS8: 8px;
   --FS10: 10px;
   --FS12: 12px;
@@ -35,6 +34,17 @@
   --FS28: 28px;
   --FS32: 32px;
   --FS40: 40px;
+  --N100: #0f0f0f;
+  --N90: #232833;
+  --N80: #3a4354;
+  --N70: #556178;
+  --N60: #76839c;
+  --N50: #96a3b6;
+  --N40: #B8c2d0;
+  --N30: #CBD4E1;
+  --N20: #DEE3ec;
+  --N10: #F0F2F5;
+
 }
 
 
@@ -54,6 +64,7 @@
   h5 {
     font-family: var(--HeadingFontFamily);
     color: var(--PrimaryColor);
+    line-height:1;
   }
 
   h1 { font-size: var(--FS32); }
@@ -73,12 +84,13 @@
     @apply no-underline;
   }
 
+
   .container {
     @apply w-full max-w-5xl mx-auto px-5;
   }
 
   input[type='search'] {
-    @apply border border-slate-200 rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-primary/60;
+    @apply border border-slate-200 rounded-md px-4 py-1 outline-none focus:ring-2 focus:ring-primary/60;
   }
 
   input[type='submit'] {
@@ -142,7 +154,7 @@
   }
 
   .primary-nav-desktop .menu {
-    @apply flex items-center gap-6 list-none p-0 m-0;
+    @apply flex items-center gap-2 list-none p-0 m-0;
   }
 
   .primary-nav-desktop .menu > li {
@@ -151,13 +163,25 @@
 
   .primary-nav-desktop .menu > li > a {
     font-family: var(--ButtonFontFamily);
-    @apply inline-flex items-center rounded-full px-4 py-2 text-sm font-medium text-white/80 transition;
+    @apply inline-flex items-center gap-2 rounded-full px-2 py-2 text-base font-medium text-white/80 transition;
+  }
+
+  .primary-nav-desktop .menu > li > a .menu-link-icon {
+    color: currentColor;
+    @apply inline-flex items-center text-[1em];
+  }
+
+  .primary-nav-desktop .menu > li > a .menu-link-icon svg {
+    @apply w-[1em] h-[1em];
+  }
+
+  .primary-nav-desktop .menu > li > a .menu-link-label {
+    @apply inline-flex items-center;
   }
 
   .primary-nav-desktop .menu > li > a:hover,
   .primary-nav-desktop .menu > li.current-menu-item > a {
-    background-color: rgba(255, 255, 255, 0.18);
-    color: #fff;
+    color: var(--PrimaryColor);
   }
 
   .primary-nav-desktop .menu li.menu-item-has-children > a::after {
@@ -249,7 +273,16 @@
   }
 
   .header-mobile-panel nav .menu > li > a {
-    @apply block px-4 py-3 text-base font-medium text-slate-700 transition hover:bg-slate-50;
+    @apply flex items-center gap-3 px-4 py-3 text-base font-medium text-slate-700 transition hover:bg-slate-50;
+  }
+
+  .header-mobile-panel nav .menu > li > a .menu-link-icon {
+    color: currentColor;
+    @apply inline-flex items-center text-[1em];
+  }
+
+  .header-mobile-panel nav .menu > li > a .menu-link-icon svg {
+    @apply w-[1em] h-[1em];
   }
 
   .header-mobile-panel nav .menu li.current-menu-item > a {
@@ -315,101 +348,163 @@
   }
 
   .hero-section {
-    @apply relative py-20 overflow-hidden text-center rounded-none;
+    background-color: #e9f2f9;
+    @apply relative overflow-hidden rounded-none pt-14 pb-0 md:pt-20 md:pb-0;
   }
 
   .hero-section .hero-bg-overlay {
     @apply absolute inset-0 -z-10;
-    background: radial-gradient(at right bottom, var(--PrimaryColorLight), #ffffff);
-    opacity: 0.8;
+    background: radial-gradient(at right bottom, var(--PrimaryColorLight), rgba(255, 255, 255, 0.85));
+    opacity: 1;
   }
 
   .hero-section .hero-content {
     @apply relative z-10;
   }
 
-  .hero-section h1 {
-    color: var(--PrimaryColor);
-    @apply text-4xl font-semibold mb-4;
+  .hero-section .hero-inner {
+    @apply grid items-center gap-6 md:gap-10;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 
-  .hero-section p {
-    color: var(--ParagraphAltColor);
-    @apply mb-6;
+  .hero-section .hero-copy {
+    @apply flex flex-col gap-0 text-left;
+  }
+
+  .hero-section h1 {
+    color: var(--PrimaryColor);
+    @apply text-4xl md:text-5xl font-semibold mb-5;
+    line-height:1.05;
+  }
+
+  .hero-section .info {
+    color: var(--ParagraphColor);
+    @apply text-base md:text-lg;
   }
 
   .hero-section .search-form {
-    @apply max-w-xl mx-auto;
+    @apply max-w-xl w-full py-6;
+  }
+
+  .hero-section .hero-visual {
+    @apply flex justify-center;
+  }
+
+  .hero-section .hero-visual img {
+    max-width: 22rem;
+    @apply w-full h-auto drop-shadow-sm;
+  }
+
+  @media (max-width: 767px) {
+    .hero-section .hero-visual {
+      @apply hidden;
+    }
   }
 
   .services-grid {
-    @apply grid gap-8 pb-8;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    @apply grid gap-6;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   }
 
-  .service-box {
-    background-color: #ffffff;
-    border-radius: var(--ModalBorderRadius);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
-    @apply block p-8 transition-transform;
+  @media (min-width: 1536px) {
+    .services-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 
-  .service-box:hover {
-    @apply -translate-y-1;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  .featured-card {
+    @apply flex items-start gap-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md;
   }
 
-  .service-box h3 {
+  .featured-card__media {
+    @apply flex-shrink-0;
+    width: 120px;
+  }
+
+  .featured-card__media img {
+    @apply w-full h-auto object-contain;
+  }
+
+  .featured-card__body {
+  
+  }
+
+  .featured-card h3 a{
     color: var(--PrimaryColor);
-    @apply text-2xl mb-3;
+    @apply text-2xl font-semibold m-0 leading-tight;
   }
 
-  .service-box p {
+  .featured-card h3 {
+    @apply pb-2;
+  }
+
+  .featured-card p {
     color: var(--ParagraphAltColor);
-    @apply mb-5;
+    @apply text-base m-0 pb-4;
   }
 
-  .service-box .browse-questions {
-    color: var(--PrimaryColor);
-    @apply font-semibold inline-flex items-center;
+  .featured-card__cta {
+    @apply mt-1;
   }
 
+  
   .primary-button {
     background-color: var(--PrimaryColor);
+    border: 1px solid var(--PrimaryColor);
     color: var(--OnPrimary);
     border-radius: var(--ButtonBorderRadius);
-    @apply inline-block px-6 py-3 text-base;
+    @apply inline-flex items-center gap-2 text-base font-semibold px-4 py-2;
+    line-height: 1;
   }
 
   .secondary-button {
-    border: 1px solid var(--50-Dark);
+    border: 1px solid var(--N50);
     border-radius: var(--ButtonBorderRadius);
-    @apply inline-block px-6 py-3 text-base text-slate-700;
+    min-height: 32px;
+    background: #ffffff;
+    color: var(--N90);
+    @apply inline-flex py-2 px-4 items-center gap-2 font-semibold text-base;
+    line-height: 1;
+  }
+
+  .secondary-button i,
+  .secondary-button svg {
+    @apply w-3 h-3;
   }
 
   .search-form {
     @apply flex gap-3 justify-center;
+    align-items:center;
   }
 
   .search-form input[type='search'] {
     @apply flex-1;
   }
 
-  .search-form input[type='submit'] {
-    background-color: var(--SecondaryColor);
-    color: var(--OnPrimary);
+  .search-form button[type='submit'] {
+    background-color: var(--PrimaryColor);
+    color: var(--PrimaryColorLight);
     border-radius: var(--ButtonBorderRadius);
-    @apply px-4 py-2;
+    @apply inline-flex items-center gap-2 font-semibold;
+    max-height:32px;
+  }
+
+  .search-form button[type='submit'] i,
+  .search-form button[type='submit'] svg {
+    @apply text-sm w-4 h-4;
   }
 
   .site-footer {
     background-color: var(--BackgroundNavFooter);
-    color: var(--OnBackgroundNavFooterDefault);
+    
     @apply py-4;
   }
 
   .site-footer a {
     color: var(--OnBackgroundNavFooterMeta);
+  }
+  .site-footer p {
+    color: var(--OnBackgroundNavFooterDefault);
   }
 
   .help-topic-container {
@@ -565,7 +660,9 @@
   }
 
   .search-eyebrow {
-    @apply uppercase text-xs tracking-[0.3em] text-slate-400;
+    @apply uppercase text-xs tracking-[0.2em] text-slate-400 mb-0;
+    color:var(--ParagraphAltColor);
+ 
   }
 
   .search-title {
@@ -649,11 +746,20 @@
   }
 
   .home-section {
-    @apply py-12 space-y-6;
+    @apply py-16 space-y-6;
   }
 
   .section-header {
-    @apply flex flex-col gap-2 mb-6;
+    @apply flex flex-col gap-0 mb-6;
+  }
+
+  .section-header  h2{
+    @apply text-4xl mb-2;
+  }
+
+  .hero-bg{
+    background: radial-gradient(at right bottom, var(--PrimaryColorLight), #ffffff);
+    
   }
 
   .popular-videos {

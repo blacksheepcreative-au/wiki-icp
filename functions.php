@@ -84,6 +84,57 @@ function wiki_icp_register_menus() {
 }
 add_action('after_setup_theme', 'wiki_icp_register_menus');
 
+/**
+ * Allow adding Font Awesome classes on menu items to render leading icons while keeping the label.
+ * Add classes like "fa-solid fa-house" or "fa-regular fa-circle" on a menu item in Appearance > Menus.
+ * We strip the FA classes from the <li> to prevent the FA kit from replacing the whole item, and insert
+ * an <i> inside the link that the kit can safely swap to SVG.
+ */
+function wiki_icp_menu_icon_extract_classes($classes) {
+    return array_values(array_filter($classes, function ($class) {
+        $class = trim((string) $class);
+        // Allow FA class prefixes (fa-solid, fa-regular, fa-light, fa-duotone, fa-brands, fa-*)
+        return preg_match('/^(fa(s|r|l|b|d)?(-|$)|fa-[a-z0-9])/i', $class);
+    }));
+}
+
+function wiki_icp_menu_icons($title, $item, $args, $depth) {
+    if (($args->theme_location ?? '') !== 'primary-menu') {
+        return $title;
+    }
+
+    $classes      = is_array($item->classes) ? $item->classes : [];
+    $icon_classes = wiki_icp_menu_icon_extract_classes($classes);
+
+    if (empty($icon_classes)) {
+        return $title;
+    }
+
+    $icon_html  = sprintf(
+        '<span class="menu-link-icon"><i class="%s" aria-hidden="true"></i></span>',
+        esc_attr(implode(' ', array_map('sanitize_html_class', $icon_classes)))
+    );
+    $label_html = sprintf('<span class="menu-link-label">%s</span>', esc_html($title));
+
+    return $icon_html . $label_html;
+}
+add_filter('nav_menu_item_title', 'wiki_icp_menu_icons', 10, 4);
+
+function wiki_icp_strip_icon_classes_from_li($classes, $item, $args, $depth) {
+    if (($args->theme_location ?? '') !== 'primary-menu') {
+        return $classes;
+    }
+
+    $icon_classes = wiki_icp_menu_icon_extract_classes(is_array($classes) ? $classes : []);
+    if (empty($icon_classes)) {
+        return $classes;
+    }
+
+    $filtered = array_diff($classes, $icon_classes);
+    return array_values($filtered);
+}
+add_filter('nav_menu_css_class', 'wiki_icp_strip_icon_classes_from_li', 10, 4);
+
 if (!function_exists('get_brand_data')) {
     /**
      * Return brand metadata keyed by current subdomain.
@@ -104,10 +155,10 @@ if (!function_exists('get_brand_data')) {
                     '--HeadingFontFamily'          => "'Sansation', sans-serif",
                     '--BodyFontFamily'             => "'Helvetica', sans-serif",
                     '--ButtonFontFamily'           => "'Sansation', sans-serif",
-                    '--PrimaryColorLight'          => '#dff0ea',
+                    '--PrimaryColorLight'          => '#ffffff',
                     '--SecondaryColorLight'        => '#fde68a',
                     '--OnBackgroundNavFooterDefault' => '#ffffff',
-                    '--OnBackgroundNavFooterMeta'  => '#b8c2d0',
+                    '--OnBackgroundNavFooterMeta'  => '#51b592',
                 ],
             ],
             'supaview' => [
@@ -130,11 +181,7 @@ if (!function_exists('get_brand_data')) {
                 'address' => 'Unit 8/47 Overlord Place, Acacia Ridge, QLD 4108',
                 'website' => 'https://www.wikiicpsystems.com.au',
                 'logo'    => $base_uri . '/default-logo.svg',
-                'css_vars' => [
-                    '--PrimaryColor'        => '#0f8eff',
-                    '--SecondaryColor'      => '#0f8eff',
-                    '--BackgroundNavFooter' => '#232833',
-                ],
+                
             ],
         ];
 

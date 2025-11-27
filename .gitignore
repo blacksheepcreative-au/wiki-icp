@@ -6,3 +6,4 @@ dist/
 
 # Local-only helpers
 localfunctions.php
+functions-production.php

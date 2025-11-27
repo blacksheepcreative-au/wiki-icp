@@ -8,14 +8,40 @@ get_header(); ?>
   <section class="hero-section">
     <div class="hero-bg-overlay"></div>
     <div class="container hero-content">
-      <p class="search-eyebrow"><?php esc_html_e('Knowledge Base', 'wiki-icp'); ?></p>
-      <h1><?php esc_html_e('Welcome to the Support Center', 'wiki-icp'); ?></h1>
-      <p><?php esc_html_e('Search across help topics, tutorial videos, and AI-guided answers.', 'wiki-icp'); ?></p>
-      <form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/knowledge-search/')); ?>">
-        <label class="screen-reader-text" for="home-search"><?php esc_html_e('Search the knowledge base', 'wiki-icp'); ?></label>
-        <input id="home-search" type="search" placeholder="<?php esc_attr_e('Search…', 'wiki-icp'); ?>" name="q">
-        <input class="secondary-button" type="submit" value="<?php esc_attr_e('Search', 'wiki-icp'); ?>">
-      </form>
+      <?php
+      $brand      = get_brand_data();
+      $brand_name = isset($brand['name']) ? trim((string) $brand['name']) : '';
+      ?>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="search-eyebrow">
+            <?php
+            if ($brand_name) {
+                printf(
+                    /* translators: %s: Brand name */
+                    esc_html__('%s Knowledge Base', 'wiki-icp'),
+                    esc_html($brand_name)
+                );
+            } else {
+                esc_html_e('Knowledge Base', 'wiki-icp');
+            }
+            ?>
+          </p>
+          <h1><?php esc_html_e('Welcome to our help center', 'wiki-icp'); ?></h1>
+          <p class="info"><?php esc_html_e('Search across help topics, tutorial videos, and AI-guided answers.', 'wiki-icp'); ?></p>
+          <form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/knowledge-search/')); ?>">
+            <label class="screen-reader-text" for="home-search"><?php esc_html_e('Search the knowledge base', 'wiki-icp'); ?></label>
+            <input id="home-search" type="search" placeholder="<?php esc_attr_e('Search…', 'wiki-icp'); ?>" name="q">
+            <button class="primary-button" type="submit">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              <span><?php esc_html_e('Search', 'wiki-icp'); ?></span>
+            </button>
+          </form>
+        </div>
+        <div class="hero-visual">
+          <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/SVG/help-bot.svg'); ?>" alt="<?php esc_attr_e('Support bot illustration', 'wiki-icp'); ?>">
+        </div>
+      </div>
     </div>
   </section>
 
@@ -45,12 +71,24 @@ get_header(); ?>
           while ($featured_pages->have_posts()) :
               $featured_pages->the_post();
               $excerpt = get_the_excerpt() ?: wp_trim_words(get_the_content(), 25);
+              $image_url = get_the_post_thumbnail_url(get_the_ID(), 'medium_large');
+              if (!$image_url) {
+                  $image_url = get_stylesheet_directory_uri() . '/assets/SVG/help-bot.svg';
+              }
               ?>
-              <a href="<?php the_permalink(); ?>" class="service-box">
-                <h3><?php the_title(); ?></h3>
-                <p><?php echo esc_html($excerpt); ?></p>
-                <span class="browse-questions"><?php esc_html_e('Browse Tutorials →', 'wiki-icp'); ?></span>
-              </a>
+              <article class="featured-card">
+                <div class="featured-card__media">
+                  <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>">
+                </div>
+                <div class="featured-card__body">
+                  <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                  <p><?php echo esc_html($excerpt); ?></p>
+                  <a class="secondary-button featured-card__cta" href="<?php the_permalink(); ?>">
+                    <span><?php esc_html_e('Get started', 'wiki-icp'); ?></span>
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </article>
           <?php
           endwhile;
           wp_reset_postdata();

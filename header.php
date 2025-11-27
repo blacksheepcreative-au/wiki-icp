@@ -35,7 +35,7 @@ $mobile_menu = wp_nav_menu(array_merge($menu_base_args, [
           <img src="<?php echo esc_url($brand['logo']); ?>" alt="<?php echo esc_attr($brand['name']); ?>">
           <span class="logo-tagline">
             <span class="logo-divider">|</span>
-            <span><?php esc_html_e('Support Center', 'wiki-icp'); ?></span>
+            <span><?php esc_html_e('Help Center', 'wiki-icp'); ?></span>
           </span>
         </a>
       </div>
